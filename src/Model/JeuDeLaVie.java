@@ -25,7 +25,7 @@ public class JeuDeLaVie {
     private IntegerProperty boardSize;
 
     private BooleanProperty[][] boolTab;
-    private Cellule[][] cellTab;
+    private Cell[][] cellTab;
 
     private IntegerProperty vieMin = new SimpleIntegerProperty(DEFAULT_VIEMIN);
     private IntegerProperty vieMax = new SimpleIntegerProperty(DEFAULT_VIEMAX);
@@ -37,7 +37,7 @@ public class JeuDeLaVie {
     public JeuDeLaVie(int size){
         this.boardSize = new SimpleIntegerProperty(size);
         this.tour = new SimpleIntegerProperty(0);
-        this.cellTab = new Cellule[size][size];
+        this.cellTab = new Cell[size][size];
         this.boolTab = new SimpleBooleanProperty[size][size];
 
         for (int i = 0; i < size; i++) {
@@ -50,7 +50,7 @@ public class JeuDeLaVie {
 
     public void setSize(int newSize){
         SimpleBooleanProperty[][] newBooleanTab = new SimpleBooleanProperty[newSize][newSize];
-        Cellule[][] newCellTab = new Cellule[newSize][newSize];
+        Cell[][] newCellTab = new Cell[newSize][newSize];
         for (int i = 0; i < newSize; i++) {
             for (int j = 0; j < newSize; j++) {
                 newBooleanTab[i][j] = new SimpleBooleanProperty(false);
@@ -70,21 +70,28 @@ public class JeuDeLaVie {
                 }
             }
         }
-        Platform.runLater(()->{
+        Platform.runLater(()-> {
             this.tour.setValue(0);
         });
         return true;
     } 
 
+    public void resetBoard(){
+        for (int i = 0; i < this.boardSize.getValue(); i++) {
+            for (int j = 0; j < this.boardSize.getValue(); j++) {
+                    this.cellTab[i][j] = null;
+                    this.boolTab[i][j].setValue(false);
+            }
+        }
+    }
+
     public void initProba(double proba){
         this.proba = new SimpleDoubleProperty(proba);
-        Platform.runLater(()->{
-            this.tour.setValue(0);
-        });
+        this.tour.setValue(0);
         for (int i = 0; i < this.boardSize.getValue(); i++) {
             for (int j = 0; j < this.boardSize.getValue(); j++) {
                 if(getRandomBoolean()){
-                    this.cellTab[i][j] = new Cellule(i, j);
+                    this.cellTab[i][j] = new Cell(i, j);
                     this.boolTab[i][j].setValue(true);
                 }
                 else{
@@ -132,7 +139,7 @@ public class JeuDeLaVie {
                 if (this.cellTab[i][j] == null){
                     //cas ou la cellule est vide et donc on test si elle mérite la vie 
                     if( calculateNbNeighbors(i, j)>= this.getVieMin().getValue() && calculateNbNeighbors(i, j)<= this.getVieMax().getValue()){
-                        this.cellTab[i][j] = new Cellule(i, j);
+                        this.cellTab[i][j] = new Cell(i, j);
                     }
                 }
                 else{
@@ -140,9 +147,9 @@ public class JeuDeLaVie {
                     this.cellTab[i][j].setNbVoisins(calculateNbNeighbors(i, j));
 
                     //Ensuite on fait le traitement de vie/mort pour chaque cellule
-                    if(this.cellTab[i][j].getNbVoisins() >=this.mortAs.getValue() || this.cellTab[i][j].getNbVoisins() <= this.mortIs.getValue()){
-                        this.cellTab[i][j].kill();
-                    }
+                        if(this.cellTab[i][j].getNbNeighbors() >=this.mortAs.getValue() || this.cellTab[i][j].getNbNeighbors() <= this.mortIs.getValue()){
+                            this.cellTab[i][j].kill();
+                        }
                     else this.cellTab[i][j].setState(true);
                 }
             }
@@ -179,11 +186,11 @@ public class JeuDeLaVie {
         return this.boolTab;
     }
 
-    public Cellule[][] getCellTab(){
+    public Cell[][] getCellTab(){
         return this.cellTab;
     }
 
-    public Cellule getCell(int x , int y){
+    public Cell getCell(int x , int y){
         return this.cellTab[x][y];
     }
 
@@ -195,6 +202,19 @@ public class JeuDeLaVie {
         return this.boardSize;
     }
 
+
+    public void afficheBool(){
+        for (int i = 0; i < this.boardSize.getValue(); i++) {
+            System.out.println();
+            for (int j = 0; j < this.boardSize.getValue(); j++) {
+                if(this.boolTab[i][j].getValue() == false){
+                    System.out.print("F ");
+                }
+                else System.out.print("T ");
+            }
+        }
+        System.out.println("Nombre de tour : " + this.tour.getValue());
+    }
 
     public void afficheTab(){
         for (int i = 0; i < this.boardSize.getValue(); i++) {
@@ -213,7 +233,6 @@ public class JeuDeLaVie {
     }
 
     public static void main(String[] args) {
-    
         Scanner scan = new Scanner(System.in);
         JeuDeLaVie jdv = new JeuDeLaVie(3);
         jdv.initProba(50);

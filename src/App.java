@@ -1,5 +1,5 @@
-import Controleur.Controleur;
-import Vue.JeuDeLaVieVue;
+import Controller.Controller;
+import View.JeuDeLaVieView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -16,8 +16,8 @@ public class App extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Hello World!");
         
-        JeuDeLaVieVue root = new JeuDeLaVieVue();
-        Controleur controleur = new Controleur(root);
+        JeuDeLaVieView root = new JeuDeLaVieView();
+        Controller controleur = new Controller(root);
         
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
