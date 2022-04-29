@@ -19,7 +19,6 @@ public class LeftSide extends VBox {
 
     public LeftSide(){
         super(10);
-        // this.setMinWidth(300);
         this.setPadding(new Insets(5));
         this.setAlignment(Pos.TOP_CENTER);
         this.setStyle("-fx-background-color:seagreen");

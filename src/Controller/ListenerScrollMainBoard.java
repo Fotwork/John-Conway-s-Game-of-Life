@@ -26,6 +26,10 @@ public class ListenerScrollMainBoard implements EventHandler<ScrollEvent>{
         else{
             newsize = firstRectSize+event.getDeltaY()+38;
         }
+        //Cette condition permet de minimiser la taille des réctangles à 5
+        if(newsize<5){
+            newsize =5;
+        }
         this.controleur.getView().getBoard().setRectSize(newsize);
         for (Node node : this.controleur.getView().getBoard().getChildren()) {
             Rectangle rect = (Rectangle)node;

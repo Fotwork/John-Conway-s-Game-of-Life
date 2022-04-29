@@ -39,13 +39,13 @@ public class Board extends GridPane {
     }
 
     //fonction qui recupere le rectangle dans notre plateau de jeu en fonction de ses coordonnées x et y.
-    public Rectangle getNodeByRowColumnIndex (final int row, final int column) {
+    public Rectangle getNodeByRowColumnIndex (final int x, final int y) {
         Rectangle result = null;
         ObservableList<Node> childrens = this.getChildren();
     
         for (Node node : childrens) {
             Rectangle rect = (Rectangle)node;
-            if(GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
+            if(GridPane.getRowIndex(node) == x && GridPane.getColumnIndex(node) == y) {
                 result = rect;
                 break;
             }

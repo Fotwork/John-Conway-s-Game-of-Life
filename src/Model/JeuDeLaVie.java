@@ -13,6 +13,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 /**
  * JeuDeLaVie
+ * @ymouacha
+ * @smasson
  */
 public class JeuDeLaVie {
 
@@ -134,23 +136,27 @@ public class JeuDeLaVie {
         });
         for (int i = 0; i < this.boardSize.getValue(); i++) {
             for (int j = 0; j < this.boardSize.getValue(); j++) {
-
+                int cellNbNeighbors = this.calculateNbNeighbors(i, j);
                 
-                if (this.cellTab[i][j] == null){
-                    //cas ou la cellule est vide et donc on test si elle mérite la vie 
-                    if( calculateNbNeighbors(i, j)>= this.getVieMin().getValue() && calculateNbNeighbors(i, j)<= this.getVieMax().getValue()){
+                //cas ou c'est vide
+                if (this.cellTab[i][j] == null ){
+                    //on test si le nombre de voisins de cette case est suffisant pour donner vie a une nouvelle cellule.
+                    if( cellNbNeighbors>= this.getVieMin().getValue() && cellNbNeighbors<= this.getVieMax().getValue()){
                         this.cellTab[i][j] = new Cell(i, j);
                     }
                 }
                 else{
-                    //On calcule le nb de voisins pour chaque cellule
                     this.cellTab[i][j].setNbVoisins(calculateNbNeighbors(i, j));
-
-                    //Ensuite on fait le traitement de vie/mort pour chaque cellule
+                    //on fait pareil dans le cas ou une cellule existe mais est morte.
+                    if(this.cellTab[i][j].getNbNeighbors()>= this.getVieMin().getValue() && this.cellTab[i][j].getNbNeighbors()<= this.getVieMax().getValue()){
+                        this.cellTab[i][j].setState(true);
+                    }
+                    else{
+                        //Ensuite on vérifie pour chaque cellule vivante si cette dernière doit mourir en fonction de mortAs et mortIs.
                         if(this.cellTab[i][j].getNbNeighbors() >=this.mortAs.getValue() || this.cellTab[i][j].getNbNeighbors() <= this.mortIs.getValue()){
                             this.cellTab[i][j].kill();
                         }
-                    else this.cellTab[i][j].setState(true);
+                    }
                 }
             }
         }

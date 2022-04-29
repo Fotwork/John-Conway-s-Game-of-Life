@@ -34,14 +34,13 @@ public class JeuDeLaVieView extends HBox{
     }
 
     
-    public Boolean showConfirmation(String title, String header, String content , ActionEvent h) {
+    public Boolean showConfirmation(String title, String header, String content) {
 
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
 
-        // option != null.
         Optional<ButtonType> option = alert.showAndWait();
 
         if ( option.get() == ButtonType.CANCEL ) {
