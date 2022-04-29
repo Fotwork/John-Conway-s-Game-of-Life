@@ -15,6 +15,8 @@ import javafx.scene.shape.Rectangle;
 
 /**
  * Controleur
+ * @author ymouacha
+ * @author smasson
  */
 public class Controller {
 

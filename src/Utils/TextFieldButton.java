@@ -6,6 +6,7 @@ import javafx.scene.layout.HBox;
 
 /**
  * TextFieldButton
+ * @author ymouacha
  */
 public class TextFieldButton extends HBox {
 

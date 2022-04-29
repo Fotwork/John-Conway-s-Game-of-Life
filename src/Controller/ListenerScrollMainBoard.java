@@ -7,6 +7,7 @@ import javafx.scene.shape.Rectangle;
 
 /**
  * ListenerScrollPirncipalBoard
+ * @author ymouacha
  */
 public class ListenerScrollMainBoard implements EventHandler<ScrollEvent>{
 

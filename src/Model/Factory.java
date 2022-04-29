@@ -2,6 +2,8 @@ package Model;
 
 /**
  * Factory
+ * @author smasson
+ * @author ymouacha
  */
 public class Factory {
 

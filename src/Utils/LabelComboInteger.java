@@ -7,6 +7,7 @@ import javafx.scene.layout.HBox;
 
 /**
  * EtiquetteComboInteger
+ * @author ymouacha
  */
 public class LabelComboInteger extends HBox{
 

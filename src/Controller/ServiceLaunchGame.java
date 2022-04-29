@@ -10,6 +10,8 @@ import javafx.scene.shape.Rectangle;
 
 /**
  * ServiceLaunchGame qui va avoir pour role de lancer la task TaskLaunchGame
+ *  @author ymouacha
+ *  @author smasson
  */
 
 public class ServiceLaunchGame extends Service<Void> {

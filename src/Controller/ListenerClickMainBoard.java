@@ -13,6 +13,8 @@ import javafx.scene.shape.Rectangle;
 
 /**
  * ListenerClickPrincipalBoard
+ * @author smasson
+ * @author ymouacha
  */
 public class ListenerClickMainBoard implements EventHandler<MouseEvent> {
     Controller controller ;

@@ -5,6 +5,7 @@ import javafx.beans.property.IntegerProperty;
 
 /**
  * CompteurStringBinding
+ * @author ymouacha
  */
 public class CounterStringBinding extends StringBinding {
     

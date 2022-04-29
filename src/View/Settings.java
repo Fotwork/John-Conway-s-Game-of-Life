@@ -8,6 +8,7 @@ import javafx.scene.layout.VBox;
 
 /**
  * Parameteres
+ * @author ymouacha
  */
 public class Settings extends VBox {
 

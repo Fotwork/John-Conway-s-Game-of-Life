@@ -7,6 +7,7 @@ import javafx.scene.layout.VBox;
 
 /**
  * Ressort
+ * @author ymouacha
  */
 public class Ressort extends Region{
     public Ressort(){

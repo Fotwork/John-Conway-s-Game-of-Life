@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 
 /**
  * RightSide
+ * @author ymouacha
  */
 public class RightSide extends VBox {
     Board zoneTampon;

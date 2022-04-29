@@ -10,6 +10,7 @@ import javafx.scene.shape.Rectangle;
 
 /**
  * Board
+ * @author ymouacha
  */
 public class Board extends GridPane {
     double rectSize;

@@ -2,8 +2,8 @@ package Model;
 
 /**
  * Cellule
- * @ymouacha
- * @smasson
+ * @author ymouacha
+ * @author smasson
  */
 public class Cell {
     private int nbNeighbors;

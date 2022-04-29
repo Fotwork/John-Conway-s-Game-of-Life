@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 
 /**
  * JeuDeLaVieVue
+ * @author ymouacha
  */
 public class JeuDeLaVieView extends HBox{
     LeftSide ls;

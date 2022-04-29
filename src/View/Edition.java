@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 
 /**
  * Edition
+ * @author ymouacha
  */
 public class Edition extends VBox{
     TextFieldButton sizeBoardTfButton;

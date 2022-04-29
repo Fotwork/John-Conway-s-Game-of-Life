@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 
 /**
  * LeftSide
+ * @author ymouacha
  */
 public class LeftSide extends VBox {
     
