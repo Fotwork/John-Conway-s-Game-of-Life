@@ -15,6 +15,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
+
+/**
+ * Controleur
+ */
 public class Controleur {
 
     JeuDeLaVie model;

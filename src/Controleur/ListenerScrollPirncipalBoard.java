@@ -5,6 +5,9 @@ import javafx.scene.Node;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * ListenerScrollPirncipalBoard
+ */
 public class ListenerScrollPirncipalBoard implements EventHandler<ScrollEvent>{
 
     Controleur controleur;

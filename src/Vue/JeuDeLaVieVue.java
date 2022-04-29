@@ -11,6 +11,10 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+
+/**
+ * JeuDeLaVieVue
+ */
 public class JeuDeLaVieVue extends HBox{
     Leftside ls;
     Board board;

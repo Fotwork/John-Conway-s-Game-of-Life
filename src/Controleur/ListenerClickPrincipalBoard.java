@@ -9,6 +9,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
+
+/**
+ * ListenerClickPrincipalBoard
+ */
 public class ListenerClickPrincipalBoard implements EventHandler<MouseEvent> {
     Controleur controleur ;
 

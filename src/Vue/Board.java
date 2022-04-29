@@ -7,6 +7,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
+
+/**
+ * Board
+ */
 public class Board extends GridPane {
     double rectSize;
     public Board(int size , double rectSize){

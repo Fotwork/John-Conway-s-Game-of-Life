@@ -3,8 +3,7 @@ import javafx.beans.binding.StringBinding;
 import javafx.beans.property.IntegerProperty;
 
 /**
- *
- * @author ymouacha
+ * CompteurStringBinding
  */
 public class CompteurStringBinding extends StringBinding {
     

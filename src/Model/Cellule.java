@@ -1,5 +1,8 @@
 package Model;
 
+/**
+ * Cellule
+ */
 public class Cellule {
     private int nbVoisins;
     private final int posx;

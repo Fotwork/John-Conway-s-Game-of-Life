@@ -1,5 +1,8 @@
 package Model;
 
+/**
+ * Factory
+ */
 public class Factory {
 
     public static Boolean[][] creatMotif1(){
