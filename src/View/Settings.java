@@ -20,22 +20,28 @@ public class Settings extends VBox {
         super(2);
         this.setPadding(new Insets(3));
         this.setAlignment(Pos.TOP_CENTER);
-        this.setStyle("-fx-border-color : black;-fx-background-color: mediumseagreen;");
+        this.setStyle("-fx-background-color: mediumseagreen;");
+
+        //Label titre
         Label title = new Label("Paramètres du jeu");
         title.setStyle("-fx-font-weight: bold");
 
+        //mortIsolation
         this.mortIsolation = new LabelComboInteger("mortSolitude: ");
         this.mortIsolation.getCombobox().getItems().addAll(1,2,3,4,5);
         this.mortIsolation.getCombobox().getSelectionModel().select(0);
 
+        //mortAsphyxie
         this.mortAsphyxie = new LabelComboInteger("mortAsphyxie: ");
         this.mortAsphyxie.getCombobox().getItems().addAll(1,2,3,4,5);
         this.mortAsphyxie.getCombobox().getSelectionModel().select(3);
         
+        //vieMin
         this.vieMin = new LabelComboInteger("vieMin: ");
         this.vieMin.getCombobox().getItems().addAll(1,2,3,4,5);
         this.vieMin.getCombobox().getSelectionModel().select(2);
 
+        //vieMax
         this.vieMax = new LabelComboInteger("vieMax: ");
         this.vieMax.getCombobox().getItems().addAll(1,2,3,4,5);
         this.vieMax.getCombobox().getSelectionModel().select(2);

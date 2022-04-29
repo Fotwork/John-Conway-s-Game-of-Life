@@ -19,21 +19,26 @@ public class LeftSide extends VBox {
 
     public LeftSide(){
         super(10);
+        
         this.setPadding(new Insets(5));
         this.setAlignment(Pos.TOP_CENTER);
-        this.setStyle("-fx-background-color:seagreen");
+        this.setStyle("-fx-background-color:seagreen;-fx-border-color : black;");
 
+        //edition et settings
         this.edition = new Edition();
         this.settings = new Settings();
 
+        //Boutton play/pause
         this.play = new Button("Play");
         this.play.setPrefWidth(150);
         this.play.setPrefHeight(150);
         
+        //Label nombre de tours
         this.nbTours = new Label("Nombre de générations : 0");
-        this.nbTours.setStyle("-fx-border-color: black;-fx-background-color:mediumseagreen;");
+        this.nbTours.setStyle("-fx-background-color:mediumseagreen;");
 
 
+        //Ressorts
         Ressort ressort1 = new Ressort();
         Ressort ressort2 = new Ressort();
 

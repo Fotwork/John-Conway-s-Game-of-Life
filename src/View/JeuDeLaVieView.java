@@ -2,7 +2,6 @@ package View;
 
 import java.util.Optional;
 import Utils.Ressort;
-import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -21,15 +20,23 @@ public class JeuDeLaVieView extends HBox{
     public JeuDeLaVieView(){
         super(5);
         this.setPadding(new Insets(5));
-        this.ls = new LeftSide();
-        VBox myVBox = new VBox();
+
+        //ressorts
         Ressort ressort1 = new Ressort();
+        Ressort ressort2 = new Ressort();
+        Ressort ressort3 = new Ressort();
+
+        //leftside
+        this.ls = new LeftSide();
+        
+        //board
+        VBox myVBox = new VBox();
         this.board = new Board(100,5);
         this.board.setMinSize(200, 200);
         myVBox.getChildren().addAll(this.board,ressort1);
+
+        //rightside
         this.rs = new RightSide();
-        Ressort ressort2 = new Ressort();
-        Ressort ressort3 = new Ressort();
         this.getChildren().addAll(this.ls,ressort3, myVBox,ressort2, this.rs);
     }
 

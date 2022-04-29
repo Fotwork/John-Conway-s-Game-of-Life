@@ -1,6 +1,5 @@
 package Controller;
 
-import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.Node;
@@ -10,7 +9,7 @@ import javafx.scene.shape.Rectangle;
 
 
 /**
- * ServiceLaunchGame
+ * ServiceLaunchGame qui va avoir pour role de lancer la task TaskLaunchGame
  */
 
 public class ServiceLaunchGame extends Service<Void> {
@@ -28,7 +27,9 @@ public class ServiceLaunchGame extends Service<Void> {
       return task;
     }
 
-    //Task qui va permettre de lancer notre jeu
+    /**
+     * TaskLaunchGame qui va avoir pour role de lancer le jeu
+     */
     private class TaskLaunchGame extends Task<Void> {
 
         private Controller controller;
@@ -40,16 +41,13 @@ public class ServiceLaunchGame extends Service<Void> {
         @Override
         protected Void call() throws Exception {
             
-            while(!this.controller.getModel().isFinished()){
-                //tant que le jeu n'est pas fini et que la task n'a pas été cancel alors on continue
-                if(isCancelled()){
-                    break;
-                }
+            //tant que le jeu n'est pas fini et que la task n'a pas été cancel alors on continue
+            while(!(this.controller.getModel().isFinished() || isCancelled())){
                 this.controller.getModel().computeTour();//on simule un tour dans le model
                 for (Node node : this.controller.getView().getBoard().getChildren()) {
                     Rectangle rect = (Rectangle)node;
                     if(this.controller.getModel().getBoolTab()[GridPane.getRowIndex(rect)][GridPane.getColumnIndex(rect)].getValue()){
-                        //on applique les modifications sur la vue en fonction du model
+                        //On applique les modifications sur la vue en fonction du model
                         rect.setFill(Paint.valueOf("red"));
                     }
                     else{

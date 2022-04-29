@@ -17,9 +17,9 @@ public class App extends Application {
         primaryStage.setTitle("Hello World!");
         
         JeuDeLaVieView root = new JeuDeLaVieView();
-        Controller controleur = new Controller(root);
+        Controller controller = new Controller(root);
         
-        primaryStage.setScene(new Scene(root));
+        primaryStage.setScene(new Scene(controller.getView()));
         primaryStage.show();
     }
 }

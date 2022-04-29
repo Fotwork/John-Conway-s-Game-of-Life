@@ -12,7 +12,6 @@ public class Factory {
                 motif1[i][j] = true;
             }
         }
-
         return motif1;
     }
 
@@ -42,8 +41,6 @@ public class Factory {
         motif1[7][4] = true;
         motif1[7][5] = true;
         motif1[7][6] = true;
-
-
 
         return motif1;
     }

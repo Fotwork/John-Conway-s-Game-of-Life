@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
  */
 public class RightSide extends VBox {
     Board zoneTampon;
-    LabelComboString jeuxPredefinis;
+    LabelComboString labJeuxPredefinis;
     Button load;
 
     public RightSide(){
@@ -23,28 +23,34 @@ public class RightSide extends VBox {
         this.setAlignment(Pos.TOP_RIGHT);
         this.setStyle("-fx-background-color:gold;-fx-border-color: black;");
 
-        HBox myHbox = new HBox();
+        //ressort 
         Ressort ressort1 = new Ressort();
-        this.zoneTampon = new Board(10,5);
-        myHbox.getChildren().addAll(ressort1,zoneTampon);
-        this.jeuxPredefinis = new LabelComboString("Jeux prédéfinis");
-        this.jeuxPredefinis.getCombobox().getItems().addAll("Motif 1", "Motif 2");
-
-        this.load = new Button("Charger");
-
         Ressort ressort2 = new Ressort();
 
+        //Zone Tampon
+        HBox myHbox = new HBox();
+        this.zoneTampon = new Board(10,5);
+        myHbox.getChildren().addAll(ressort1,zoneTampon);
+
+        //Combobox
+        this.labJeuxPredefinis = new LabelComboString("Jeux prédéfinis");
+        this.labJeuxPredefinis.getCombobox().getItems().addAll("Motif 1", "Motif 2");
+
+        //boutton charger
+        this.load = new Button("Charger");
+
+        //boutton pour quitter la plateform
         Quit quit = new Quit();
 
-        this.getChildren().addAll(myHbox,this.jeuxPredefinis,this.load,ressort2,quit);
+        this.getChildren().addAll(myHbox,this.labJeuxPredefinis,this.load,ressort2,quit);
     }
 
     public Button getLoad(){
         return this.load;
     }
 
-    public LabelComboString getPredefCombo(){
-        return this.jeuxPredefinis;
+    public LabelComboString getPredefLabelCombo(){
+        return this.labJeuxPredefinis;
     }
 
     public Board getZoneTompon(){

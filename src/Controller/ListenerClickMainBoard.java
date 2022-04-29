@@ -31,21 +31,22 @@ public class ListenerClickMainBoard implements EventHandler<MouseEvent> {
         if(event.getButton() == MouseButton.SECONDARY && event.isShiftDown()){
             this.setMainBoardMotif(row, column);
         }
+        //Si l'action a été provoqué par le clique droit
         else if(event.getButton() == MouseButton.SECONDARY){
-            Platform.runLater(() -> {
                 this.setZoneFromBoard(row,column);
-            });
         }
+        //Si l'action a été provoqué par le clique gauche
         else if (event.getButton() == MouseButton.PRIMARY){
             if (node.getFill() == Paint.valueOf("white")){
-                Platform.runLater(() -> {
+                
+                Platform.runLater(()-> {
                     node.setFill(Paint.valueOf("red"));
                 });
                 this.controller.getModel().getCellTab()[row][column] = new Cell(row, column);  
                 this.controller.getModel().getBoolTab()[row][column].setValue(true);                                                                                                                                                       
             }
             else{
-                Platform.runLater(() -> {
+                Platform.runLater(()-> {
                     node.setFill(Paint.valueOf("white"));
                 });
                 this.controller.getModel().getCellTab()[row][column] = null;
@@ -62,19 +63,33 @@ public class ListenerClickMainBoard implements EventHandler<MouseEvent> {
      */ 
     public void setMainBoardMotif(int rowClick , int columnClick){
         for (Node node : this.controller.getView().getRightSide().getZoneTompon().getChildren()) {
+
             Rectangle rect = (Rectangle)node;
-            int rectRow = GridPane.getRowIndex(rect), rectColumn = GridPane.getColumnIndex(rect);
-            if(rect.getFill() == Paint.valueOf("white")){
-                if(this.controller.getModel().getCellTab()[rowClick + rectRow][columnClick + rectColumn] != null){
-                    this.controller.getModel().getCellTab()[rowClick + rectRow][columnClick + rectColumn] = null;
+            //on recupere les coordonnees en x et en y de chaque rectangle de la zone tampon
+            int rectRowTampon = GridPane.getRowIndex(rect), rectColumnTampon = GridPane.getColumnIndex(rect);
+            //on effectue la translation en fonction des coordonnées de chaque rectangle de la zone tampon.
+            //je vous l'accorde ce n'est pas tres commode...
+            int newRow = rowClick + rectRowTampon, newColumn = columnClick + rectColumnTampon;
+
+            //il faut gerer ici les bords de notre board pour pas déclancher un NullPointerException
+            if(!(newRow >= this.controller.getModel().getBoardSize().getValue() || newColumn >= this.controller.getModel().getBoardSize().getValue() || newRow<0 || newColumn<0)){
+                if(rect.getFill() == Paint.valueOf("white")){
+                    if(this.controller.getModel().getCellTab()[newRow][newColumn] != null){
+                        this.controller.getModel().getCellTab()[newRow][newColumn] = null;
+                    }
+                    //Comme on a pas le droit de modifier l'interface depuis un autre thread que le JaFXAT on est oblige de passer par un Platform.runlater
+                    Platform.runLater(()-> {
+                        this.controller.getView().getBoard().getNodeByRowColumnIndex(newRow,newColumn).setFill(Paint.valueOf("white"));
+                    });
+                    this.controller.getModel().getBoolTab()[newRow][newColumn].setValue(false);
                 }
-                this.controller.getView().getBoard().getNodeByRowColumnIndex(rowClick + rectRow, columnClick + rectColumn).setFill(Paint.valueOf("white"));
-                this.controller.getModel().getBoolTab()[rowClick + rectRow][columnClick + rectColumn].setValue(false);
-            }
-            else {
-                this.controller.getView().getBoard().getNodeByRowColumnIndex(rowClick + rectRow, columnClick + rectColumn).setFill(Paint.valueOf("red"));
-                this.controller.getModel().getCellTab()[rowClick + rectRow][columnClick + rectColumn] = new Cell(rowClick + rectRow, columnClick + rectColumn);;
-                this.controller.getModel().getBoolTab()[rowClick + rectRow][columnClick + rectColumn].setValue(true);
+                else {
+                    Platform.runLater(()-> {
+                        this.controller.getView().getBoard().getNodeByRowColumnIndex(newRow,newColumn).setFill(Paint.valueOf("red"));
+                    });
+                    this.controller.getModel().getCellTab()[newRow][newColumn] = new Cell(newRow, newColumn);;
+                    this.controller.getModel().getBoolTab()[newRow][newColumn].setValue(true);
+                }
             }
         }
     }
@@ -89,16 +104,21 @@ public class ListenerClickMainBoard implements EventHandler<MouseEvent> {
     public void setZoneFromBoard(int rowClick , int columnClick){
         for (int i = rowClick; i < rowClick + 10; i++) {
             for (int j = columnClick; j < columnClick + 10; j++) {
-                Rectangle rectBoard = this.controller.getView().getBoard().getNodeByRowColumnIndex(i, j);
-                Rectangle rectTampon = this.controller.getView().getRightSide().getZoneTompon().getNodeByRowColumnIndex(i - rowClick , j - columnClick);
-                if(i>= this.controller.getModel().getBoardSize().getValue() || j>= this.controller.getModel().getBoardSize().getValue()){
-                    rectTampon.setFill(Paint.valueOf("white"));
-                }
-                else{
+                Rectangle rectBoard = this.controller.getView().getBoard().getNodeByRowColumnIndex(i, j); //on recupere le rectangle du board en fonction de la position  i et j.
+                //on fait une translation en faisant la difference avec les coordonnées au moment du click et on recupere le cellule correspondante de la zone tampon.
+                Rectangle rectTampon = this.controller.getView().getRightSide().getZoneTompon().getNodeByRowColumnIndex(i - rowClick , j - columnClick); 
+                //il faut gerer ici les bords de notre board principal pour pas declancher un NullPointerException
+                if(!(i>= this.controller.getModel().getBoardSize().getValue() || j>= this.controller.getModel().getBoardSize().getValue() || i<0 || j<0)){
                     if(rectBoard.getFill() == Paint.valueOf("white")){
-                        rectTampon.setFill(Paint.valueOf("white"));
+                        Platform.runLater(()-> {
+                            rectTampon.setFill(Paint.valueOf("white"));
+                        });
                     }
-                    else rectTampon.setFill(Paint.valueOf("red"));
+                    else {
+                        Platform.runLater(()-> {
+                            rectTampon.setFill(Paint.valueOf("red"));
+                        });
+                    }
                 }
             }
         }

@@ -27,6 +27,8 @@ public class Board extends GridPane {
             }
         }
 
+        //action qui sert à modifier la coleur d'une case
+        //s'applique surtout pour la zone tampon
         this.setOnMouseClicked(h -> {
             Rectangle rect = (Rectangle) h.getTarget();
             if(h.getButton() == MouseButton.PRIMARY){
@@ -38,8 +40,13 @@ public class Board extends GridPane {
         });
     }
 
-    //fonction qui recupere le rectangle dans notre plateau de jeu en fonction de ses coordonnées x et y.
-    public Rectangle getNodeByRowColumnIndex (final int x, final int y) {
+
+    /**
+     * Fonction qui recupere le rectangle dans notre plateau de jeu en fonction de ses coordonnées x et y.
+     * @param x
+     * @param y
+     */
+    public Rectangle getNodeByRowColumnIndex (int x, int y) {
         Rectangle result = null;
         ObservableList<Node> childrens = this.getChildren();
     
@@ -54,6 +61,9 @@ public class Board extends GridPane {
         return result;
     }
 
+    /**
+     * Cette fonction effache chaque bordudre de chaque rectangle de notre board.
+     */
     public void eraseBorderRect(){
         for (Node node : this.getChildren()) {
             Rectangle rect = (Rectangle)node;
@@ -61,6 +71,9 @@ public class Board extends GridPane {
         }
     }
 
+    /**
+     * Cette fonction applique les bordudres de chaque rectangle de notre board.
+     */
     public void setBorderRect(){
         for (Node node : this.getChildren()) {
             Rectangle rect = (Rectangle)node;

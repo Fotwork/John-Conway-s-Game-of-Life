@@ -12,38 +12,42 @@ import javafx.scene.layout.VBox;
  * Edition
  */
 public class Edition extends VBox{
-    TextFieldButton sizeBoard;
-    Button rebootBoard;
-    TextFieldButton initAlea;
+    TextFieldButton sizeBoardTfButton;
+    Button resetBoardButton;
+    TextFieldButton initAleaTfButton;
 
     public Edition(){
         super(2);
         this.setPadding(new Insets(3));
         this.setAlignment(Pos.TOP_CENTER);
-        this.setStyle("-fx-border-color : black;-fx-background-color: mediumseagreen;");
+        this.setStyle("-fx-background-color: mediumseagreen;");
 
+        //Label titre
         Label title = new Label("Edition du plateau");
         title.setStyle("-fx-font-weight: bold");
 
+
+        //Composantes pour l'edition du jeu
+        this.sizeBoardTfButton = new TextFieldButton("Changer taille plateau");
+        this.resetBoardButton = new Button("Reinitialiser plateau");
+        this.initAleaTfButton = new TextFieldButton("Rénitialisation aléatoire");
+        
+        //ressorts
         Ressort ressort = new Ressort();
 
-        this.sizeBoard = new TextFieldButton("Changer taille plateau");
-        this.rebootBoard = new Button("Reinitialiser plateau");
-        this.initAlea = new TextFieldButton("Rénitialisation aléatoire");
-        
-        this.getChildren().addAll(title,ressort,sizeBoard,rebootBoard,initAlea);
+        this.getChildren().addAll(title,ressort,sizeBoardTfButton,resetBoardButton,initAleaTfButton);
 
     }
 
-    public TextFieldButton getSizeBoard(){
-        return sizeBoard;
+    public TextFieldButton getSizeBoardTfButton(){
+        return this.sizeBoardTfButton;
     }
 
-    public Button getRebootBoard(){
-        return rebootBoard;
+    public Button getResetBoardButton(){
+        return this.resetBoardButton;
     }
 
-    public TextFieldButton getInitAlea(){
-        return initAlea;
+    public TextFieldButton getInitAleaTfButton(){
+        return this.initAleaTfButton;
     }
 }

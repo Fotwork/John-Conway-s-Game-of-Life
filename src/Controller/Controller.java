@@ -1,6 +1,5 @@
 package Controller;
 
-import Model.Cell;
 import Model.Factory;
 import Model.JeuDeLaVie;
 import View.Board;
@@ -50,15 +49,14 @@ public class Controller {
         /**
          * EDITION : action sur le button qui permet de changer la taille du plateau principale
          */
-        this.getView().getLeftSide().getEdition().getSizeBoard().getButton().setOnAction(h->{
-            String textSize = this.getView().getLeftSide().getEdition().getSizeBoard().getTextField().textProperty().getValue();
-            if(this.getView().getLeftSide().getEdition().getSizeBoard().getTextField().textProperty().getValue().length() == 0){
+        this.getView().getLeftSide().getEdition().getSizeBoardTfButton().getButton().setOnAction(h->{
+            String textSize = this.getView().getLeftSide().getEdition().getSizeBoardTfButton().getTextField().textProperty().getValue();
+            if(this.getView().getLeftSide().getEdition().getSizeBoardTfButton().getTextField().textProperty().getValue().length() == 0){
                 /** Description */
                 this.getView().showAlert("Erreur : Modificaiton taille du plateau de jeu", "Vous devez rentrer une valeur valide !", "Vous devez au moins rentrer une valeur !");
             }
-            /**
-             * C'est une expression régulière qui permet de vérifier si c'est un chiffre numérique et qu'il est positif.
-             */
+            
+            //C'est une expression régulière qui permet de vérifier si c'est un chiffre numérique et qu'il est positif.
             else if(!textSize.matches("[+]?\\d*(\\.\\d+)?")){
                     this.getView().showAlert("Erreur : Modificaiton taille du plateau de jeu", "Vous devez rentrer une valeur valide ! ", "Rentrez une taille strictement supérieur a 0.");
                 }
@@ -76,9 +74,9 @@ public class Controller {
         /**
          * EDITION : evenement sur le button qui permet de reinitialiser le plateau de jeu.
          */
-        this.getView().getLeftSide().getEdition().getRebootBoard().setOnAction(h->{ 
+        this.getView().getLeftSide().getEdition().getResetBoardButton().setOnAction(h->{ 
             if(this.getView().showConfirmation("Confirmation : réinitialisation du plateau de jeu", "Voulez vous vraiment réinitialiser le plateu de jeu?", "")){
-                //la reinitialisation du plateau de jeu nous amene a appeler notre fonction initBoardProba avec une probabilitee de 0%.
+                //la reinitialisation du plateau de jeu revient a appeler notre fonction initBoardProba avec une probabilitee de 0%.
                 this.initBoardProba(0);
             }
         });
@@ -86,9 +84,9 @@ public class Controller {
         /**
          * EDITION : ecouteur sur le button qui permet de generer un plateau de jeu avec une certaine probabilite p.
         */
-        this.getView().getLeftSide().getEdition().getInitAlea().getButton().setOnAction(h->{
-            String textProba = this.getView().getLeftSide().getEdition().getInitAlea().getTextField().textProperty().getValue();
-            if(this.getView().getLeftSide().getEdition().getInitAlea().getTextField().textProperty().getValue().length() == 0){
+        this.getView().getLeftSide().getEdition().getInitAleaTfButton().getButton().setOnAction(h->{
+            String textProba = this.getView().getLeftSide().getEdition().getInitAleaTfButton().getTextField().textProperty().getValue();
+            if(this.getView().getLeftSide().getEdition().getInitAleaTfButton().getTextField().textProperty().getValue().length() == 0){
                 this.getView().showAlert("Erreur : Initialisation du plateau avec une probabilité", "Veuillez entrer une valeur de probabilité conforme.", "Vous devez au moins rentrer une valeur !");
             }
             //C'est une expression reguliere qui permet de verifier si c'est un chiffre numerique et qu'il est positif.
@@ -206,7 +204,7 @@ public class Controller {
         this.getView().getRightSide().getLoad().setOnAction(h -> {
             Boolean[][] motif = null;
             //switch case en fonction du motif selectionné, on appele notre motif predefini qui se situe dans notre class Factory et on l'applique sur notre zone tampon.
-            switch (this.getView().getRightSide().getPredefCombo().getCombobox().getValue()) {
+            switch (this.getView().getRightSide().getPredefLabelCombo().getCombobox().getValue()) {
                 case "Motif 1":
                     motif = Factory.creatMotif1();
                     this.loadMotifZoneTampon(motif);
@@ -240,6 +238,7 @@ public class Controller {
             Rectangle rect = (Rectangle)node;
             //ensuite en fonction du model(tableau de bool) on colorie notre board
             if(this.getModel().getBoolTab()[GridPane.getRowIndex(rect)][GridPane.getColumnIndex(rect)].getValue()){
+                //Comme on a pas le droit de modifier l'interface depuis un autre thread que le JaFXAT on est oblige de passer par un Platform.runlater
                 Platform.runLater(() -> {
                     rect.setFill(Paint.valueOf("red"));
                 });
@@ -254,13 +253,14 @@ public class Controller {
 
     /**
      * Cette fonction permet de charger un motif sur la zone tampon.
-     * @param motif ce paramètre correspond au motif predefini se trouvant dans la classe Factory
+     * @param motif ce paramètre correspond a un des motifs predefini se trouvant dans la classe Factory
      */ 
     public void loadMotifZoneTampon(Boolean[][] motif){
         for (Node node : this.getView().getRightSide().getZoneTompon().getChildren()) {
             Rectangle rect = (Rectangle)node;
             int rowRect = GridPane.getRowIndex(rect), columnRect = GridPane.getColumnIndex(rect);
             if(motif[rowRect][columnRect]){
+                //Comme on a pas le droit de modifier l'interface depuis un autre thread que le JaFXAT on est oblige de passer par un Platform.runlater
                 Platform.runLater(() -> {
                     rect.setStyle("-fx-fill: red; -fx-stroke: black;");
                 });

@@ -1,8 +1,6 @@
 package Model;
 
 import java.util.Random;
-import java.util.Scanner;
-
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
@@ -50,6 +48,11 @@ public class JeuDeLaVie {
         }
     }
 
+    /**
+     * Cette fonction a pour but de modifier la taille du plateau de jeu.
+     * Pour cela on crée un tableau de booleen ainsi qu'un nouveau tableau de cellule avec la nouvelle taille qu'on inserera par la suite dans notre model
+     * @param newSize
+     */ 
     public void setSize(int newSize){
         SimpleBooleanProperty[][] newBooleanTab = new SimpleBooleanProperty[newSize][newSize];
         Cell[][] newCellTab = new Cell[newSize][newSize];
@@ -64,6 +67,10 @@ public class JeuDeLaVie {
         this.boardSize.setValue(newSize);;
     }
 
+    /**
+     * Fonction qui verifie si la partie est fini.
+     * Pour cela on verifie dans notre tableau de booleen si une cellule est vivante.
+     */ 
     public boolean isFinished(){
         for (int i = 0; i < this.boardSize.getValue(); i++) {
             for (int j = 0; j < this.boardSize.getValue(); j++) {
@@ -72,12 +79,16 @@ public class JeuDeLaVie {
                 }
             }
         }
+        //Comme on a pas le droit de modifier l'interface depuis un autre thread que le JaFXAT on est oblige de passer par un Platform.runlater
         Platform.runLater(()-> {
             this.tour.setValue(0);
         });
         return true;
     } 
 
+    /**
+     * Fonction qui reinitialise le board actuel
+     */ 
     public void resetBoard(){
         for (int i = 0; i < this.boardSize.getValue(); i++) {
             for (int j = 0; j < this.boardSize.getValue(); j++) {
@@ -87,6 +98,10 @@ public class JeuDeLaVie {
         }
     }
 
+    /**
+     * Fonction qui initialise le board actuel avec une certaine probabilite.
+     * @param proba
+     */ 
     public void initProba(double proba){
         this.proba = new SimpleDoubleProperty(proba);
         this.tour.setValue(0);
@@ -104,6 +119,12 @@ public class JeuDeLaVie {
         }
     }
 
+    /**
+     * Cette fonction synchronise notre tableau de boolean avec notre tableau de cellule.
+     * En effet,comme le tableau de boolean est induit du tableau de cellule on part du principe que notre tableau de boolean 
+     * aura un tour de retard vis à vis de notre tableau de cellule. Il faudra donc synchroniser les deux tableaux a la fin de chaque tour.
+     * 
+     */ 
     public void synchonizeTabs(){
         for (int i = 0; i < this.boardSize.getValue(); i++) {
             for (int j = 0; j < this.boardSize.getValue(); j++) {
@@ -115,10 +136,17 @@ public class JeuDeLaVie {
         }
     }
 
+    /**
+     * Fonction qui calcule le nombre de voisins d'une cellule en fonction du tableau de booleen.
+     * Pour cela on parcours les 8 voisins de chaque cellule sur notre tableau de boolen
+     * True signife que une cellule est vivante
+     * 
+     */ 
     public int calculateNbNeighbors(int x , int y){
         int nbNeighbors = 0;
         for (int i = x-1; i < x+2; i++) {
             for (int j = y-1; j < y+2 ; j++) {
+                //il faut gerer les effets de bord histoire de pas declancher d'erreur
                 if((i == x && j ==y) || (i<0 || i>=this.boardSize.getValue()) || (j<0 || j>=this.boardSize.getValue())){
                     continue;
                 }
@@ -130,7 +158,11 @@ public class JeuDeLaVie {
         return nbNeighbors;
     }
 
+    /**
+     * Cette fonction à pour but de simuler un tour de jeu
+     */ 
     public void computeTour(){
+        //Comme on a pas le droit de modifier l'interface depuis un autre thread que le JaFXAT on est oblige de passer par un Platform.runlater
         Platform.runLater(()-> {
             this.tour.setValue(this.tour.add(1).getValue());
         });
@@ -146,7 +178,7 @@ public class JeuDeLaVie {
                     }
                 }
                 else{
-                    this.cellTab[i][j].setNbVoisins(calculateNbNeighbors(i, j));
+                    this.cellTab[i][j].setNbVoisins(calculateNbNeighbors(i, j)); //on calcule le nombre de voisins de chaque cellule 
                     //on fait pareil dans le cas ou une cellule existe mais est morte.
                     if(this.cellTab[i][j].getNbNeighbors()>= this.getVieMin().getValue() && this.cellTab[i][j].getNbNeighbors()<= this.getVieMax().getValue()){
                         this.cellTab[i][j].setState(true);
@@ -160,11 +192,13 @@ public class JeuDeLaVie {
                 }
             }
         }
-        //On synchronie les deux table une fois tout ca fait
+        //On synchronie les deux table une fois tout cela fait
         this.synchonizeTabs();
     }
 
- 
+     /**
+     * Cette fonction genere un boolean en fonction d'une probabilite
+     */ 
     public boolean getRandomBoolean(){
         int c;
         Random rd = new Random();
@@ -196,10 +230,6 @@ public class JeuDeLaVie {
         return this.cellTab;
     }
 
-    public Cell getCell(int x , int y){
-        return this.cellTab[x][y];
-    }
-
     public IntegerProperty getTour(){
         return this.tour;
     }
@@ -207,46 +237,4 @@ public class JeuDeLaVie {
     public IntegerProperty getBoardSize(){
         return this.boardSize;
     }
-
-
-    public void afficheBool(){
-        for (int i = 0; i < this.boardSize.getValue(); i++) {
-            System.out.println();
-            for (int j = 0; j < this.boardSize.getValue(); j++) {
-                if(this.boolTab[i][j].getValue() == false){
-                    System.out.print("F ");
-                }
-                else System.out.print("T ");
-            }
-        }
-        System.out.println("Nombre de tour : " + this.tour.getValue());
-    }
-
-    public void afficheTab(){
-        for (int i = 0; i < this.boardSize.getValue(); i++) {
-            System.out.println();
-            for (int j = 0; j < this.boardSize.getValue(); j++) {
-                if(this.cellTab[i][j] == null){
-                    System.out.print("N ");
-                }
-                else if(this.cellTab[i][j].getState() == true){
-                    System.out.print("T ");
-                }
-                else System.out.print("F ");
-            }
-        }
-        System.out.println("Nombre de tour : " + this.tour.getValue());
-    }
-
-    public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        JeuDeLaVie jdv = new JeuDeLaVie(3);
-        jdv.initProba(50);
-        while(!jdv.isFinished()){
-            jdv.afficheTab();
-            jdv.computeTour();
-            scan.nextLine();
-        }
-    }
-
 }

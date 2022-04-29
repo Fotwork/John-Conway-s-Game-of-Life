@@ -21,6 +21,7 @@ public class ListenerScrollMainBoard implements EventHandler<ScrollEvent>{
         double newsize;
         double firstRectSize = ((Rectangle)this.controleur.getView().getBoard().getChildren().get(0)).getWidth();
         if(event.getDeltaY()>0){
+            // par zoom/dezoom on fait +40/-40 sur le deltaY, c'est pour cela qu'on a fait une difference afin d'avoir un zoom plus agreable
             newsize = firstRectSize+event.getDeltaY()-38;
         }
         else{
@@ -31,6 +32,7 @@ public class ListenerScrollMainBoard implements EventHandler<ScrollEvent>{
             newsize =5;
         }
         this.controleur.getView().getBoard().setRectSize(newsize);
+        //on parcours chaque rectangle de notre noeud et on applique la nouvelle taille pour chaque un d'entre eux
         for (Node node : this.controleur.getView().getBoard().getChildren()) {
             Rectangle rect = (Rectangle)node;
             rect.setWidth(newsize);
